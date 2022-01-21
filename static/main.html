@@ -1,0 +1,89 @@
+<html ng-app="mainPage">
+
+    <head>
+        <title>Function</title>
+        <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+        <link href="movement.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="js/jquery-min.js"></script>
+        <script type="text/javascript" src="js/angular-min.js"></script>
+        <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+        <script type="text/javascript" src="js/md5-min.js"></script>
+        <link rel="stylesheet" href="materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+
+    <body ng-controller="mainPageController">
+		<div id=""></div>
+		<div id="confirmationDialogue" class="modal">
+			<div class="modal-content">
+				<h5>Are you sure you want to delete this subject permanently?</h5>
+			</div>
+			<div class="modal-footer">
+				<a ng-click="subjectSubheaderClose()" class="modal-action modal-close waves-effect btn blue">Yes</a>
+				<a class="modal-action modal-close waves-effect waves-blue btn-flat">No</a>
+			</div>
+		</div>
+
+		<div id="inputDialogue" class="modal">
+			<div class="modal-content">
+				<h5>Log a test/assignment mark</h5>
+				<input ng-model="mark" placeholder="Mark (fraction, percentage)">
+				<input ng-model="topic" placeholder="Topic/notes">
+			</div>
+			<div class="modal-footer">
+				<a ng-click="submitMark(mark, topic)" class="modal-action modal-close waves-effect btn blue">Okay</a>
+				<a class="modal-action modal-close waves-effect waves-blue btn-flat">Cancel</a>
+			</div>
+		</div>
+
+		<div class="header center-align z-depth-1">
+			<span id="overview" class="headerButton" ng-click="tabClick('overview')">OVERVIEW</span>
+			<span id="marks" class="headerButton" ng-click="tabClick('marks')">MARKS</span>
+			<span id="about" class="headerButton" ng-click="tabClick('about')">ABOUT</span>
+		</div>
+
+		<div class="subjectsContainer" ng-show="tabCurrent === 'overview'">
+			<div class="subject z-depth-2 center-align">
+				ENGLISH
+				<p>90%</p>
+				<i class="subjectSubtext">Out of 9 tests</i>
+			</div>
+		</div>
+
+		<div class="subheader z-depth-1" ng-show="tabCurrent === 'marks'">
+			<span id="subjectSubheader{{$index}}" class="subheaderButton" ng-repeat="subject in subjectSubheaders" ng-click="getSubjectPage(subject.serial, $index)">
+				<span>{{subject.subject}}</span>
+				<i class="material-icons editIcon" ng-click="editSubjectName($index, subject.serial, subject.subject)">mode_edit</i>
+			</span>
+			<div class="createButton waves-effect z-depth-1" ng-click="addSubjectButton()">Add a Subject</div>
+		</div>
+
+		<div class="marksList" ng-show="tabCurrent === 'marks'">
+			<table class="striped">
+				<thead>
+					<tr>
+						<th>Mark</th>
+						<th>Topic/Notes</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="mark in marksArray">
+						<td>{{mark.mark}}</td>
+						<td>{{mark.topic}}</td>
+						<td>{{mark.date}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<a class="fabButton btn-floating btn-large waves-effect blue" ng-show="tabCurrent === 'marks'" ng-click="$('#inputDialogue').modal('open');">
+			<i class="material-icons large" style="font-size: 1.6rem!important; margin-left: 0px!important">add</i>
+		</a>
+
+    </body>
+</html>
